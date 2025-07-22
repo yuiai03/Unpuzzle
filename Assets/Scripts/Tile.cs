@@ -6,21 +6,25 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField] private TileType tileType;
+    [SerializeField] protected TileType tileType;
     
     public Vector2Int CurrentPos { get; private set; }
-    private SpriteRenderer spriteRenderer;
-    private TrailRenderer trailRenderer;
+    protected SpriteRenderer spriteRenderer;
+    protected TrailRenderer trailRenderer;
     private Coroutine shakeCoroutine;
     private Tween shakeTween;
     private void Awake()
     {
-        trailRenderer = GetComponentInChildren<TrailRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (spriteRenderer) spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/{tileType}");
     }
+    protected virtual void OnEnable()
+    {
+        transform.DOKill();
+    }
 
-    private void Start()
+    protected virtual void Start()
     {
         Init();
     }
@@ -31,7 +35,7 @@ public class Tile : MonoBehaviour
         if (trailRenderer)
         {
             var tileListData = Resources.Load<TileListData>("Datas/TileListData");
-            if (!tileListData) return;
+            if (!tileListData || tileType == TileType.Hide) return;
 
             trailRenderer.colorGradient = tileListData.GetTileConfig(tileType)?.gradient;
         }
@@ -39,8 +43,11 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        EventManager.TileClick();
-        if(CanAction()) Action();
+        if (CanAction())
+        {
+            Action();
+            EventManager.TileClick();
+        }
     }
 
     public Vector2 GetMoveDirection()
@@ -57,8 +64,6 @@ public class Tile : MonoBehaviour
                 return Vector2.down;
             case TileType.Hide:
                 return Vector2.zero;
-            case TileType.Saw:
-                return Vector2.zero;
             default:
                 return Vector2.zero;
         }
@@ -68,7 +73,8 @@ public class Tile : MonoBehaviour
 
     private void ShakeAction()
     {
-        var tileList = GameManager.Instance.CurrentLevelManager.GetTileListToDirection(CurrentPos, GetMoveDirection());
+        var tileList = GameManager.Instance.CurrentLevelManager
+            .GetTileListToDirection(CurrentPos, GetMoveDirection());
         if (tileList.Count == 0) return;
 
         if (shakeCoroutine != null) StopCoroutine(shakeCoroutine);
@@ -101,7 +107,7 @@ public class Tile : MonoBehaviour
         Vector3 targetPos = new Vector3(_targetPos.x, _targetPos.y, 0);
         if(canDestroy) GameManager.Instance.CurrentLevelManager.RemoveToList(this);
 
-        transform.DOMove(targetPos, canDestroy ? 1 : 0.5f)
+        transform.DOMove(targetPos, canDestroy ? 0.7f : 0.3f)
             .SetEase(Ease.InQuad)
             .OnComplete(() =>
             {
@@ -129,26 +135,18 @@ public class Tile : MonoBehaviour
         }
         else
         {
-            if(CanDestroy(targetPos))
-            {
-                MoveOutAndDestroy(targetPos, true);
-            }
-            else
-            {
-                MoveOutAndDestroy(targetPos, false);
-            }
-
+            MoveOutAndDestroy(targetPos, CanDestroy(targetPos) ? true : false);
         }
     }
 
     private bool CanDestroy(Vector2Int _targetPos)
     {
-        return (Mathf.Abs(_targetPos.x) + Mathf.Abs(CurrentPos.x) >= 10) 
-            || (Mathf.Abs(_targetPos.y) + Mathf.Abs(CurrentPos.y) >= 10);
+        return (Mathf.Abs(_targetPos.x) + Mathf.Abs(CurrentPos.x) >= 20) 
+            || (Mathf.Abs(_targetPos.y) + Mathf.Abs(CurrentPos.y) >= 20);
     }
 
     private bool CanAction()
     {
-        return GameManager.Instance.CurrentMoves >-0;
+        return GameManager.Instance.CurrentMoves > 0 && tileType != TileType.Hide;
     }
 }

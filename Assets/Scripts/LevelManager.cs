@@ -40,7 +40,7 @@ public class LevelManager : MonoBehaviour
         Vector2Int currentPos = _currentPos;
         Vector2Int targetPos = _currentPos;
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 20; i++)
         {
             Vector2Int newPos = targetPos + Vector2Int.RoundToInt(direction);
             bool isEmpty = CheckPos(newPos);
@@ -56,6 +56,7 @@ public class LevelManager : MonoBehaviour
         tempList.Remove(tile);
         tileList = tempList;
 
+        EventManager.RemoveTile();
         if (tileList.Count == 0) EventManager.Won();
     }
 
@@ -86,5 +87,4 @@ public class LevelManager : MonoBehaviour
     }
 
     public Vector2 CameraPos => cameraPos;
-
 }

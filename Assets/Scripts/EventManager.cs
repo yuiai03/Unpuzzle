@@ -40,4 +40,10 @@ public class EventManager
     {
         OnLost?.Invoke();
     }
+
+    public static event Action OnRemoveTile;
+    public static void RemoveTile()
+    {
+        OnRemoveTile?.Invoke();
+    }
 }

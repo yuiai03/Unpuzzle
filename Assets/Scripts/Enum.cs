@@ -8,3 +8,8 @@ public enum TileType
     Hide,
     Saw,
 }
+
+public enum PoolType
+{
+    Explosion,
+}

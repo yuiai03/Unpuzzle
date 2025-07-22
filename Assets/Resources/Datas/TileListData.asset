@@ -17,7 +17,7 @@ MonoBehaviour:
     gradient:
       serializedVersion: 2
       key0: {r: 0.9490197, g: 0.8196079, b: 0, a: 0.99215686}
-      key1: {r: 0.9450981, g: 0.8196079, b: 0.007843138, a: 0.39215687}
+      key1: {r: 0.9450981, g: 0.8196079, b: 0.007843138, a: 0.19607843}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -48,7 +48,7 @@ MonoBehaviour:
     gradient:
       serializedVersion: 2
       key0: {r: 0.9803922, g: 0.627451, b: 0, a: 0.99215686}
-      key1: {r: 0.97647065, g: 0.6313726, b: 0.011764707, a: 0.39215687}
+      key1: {r: 0.97647065, g: 0.6313726, b: 0.011764707, a: 0.19607843}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -79,7 +79,7 @@ MonoBehaviour:
     gradient:
       serializedVersion: 2
       key0: {r: 1, g: 0.29803923, b: 0.7176471, a: 0.99215686}
-      key1: {r: 0.9960785, g: 0.3137255, b: 0.7058824, a: 0.39215687}
+      key1: {r: 0.9960785, g: 0.3137255, b: 0.7058824, a: 0.19607843}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -110,7 +110,7 @@ MonoBehaviour:
     gradient:
       serializedVersion: 2
       key0: {r: 0.6784314, g: 0.3254902, b: 1, a: 0.99215686}
-      key1: {r: 0.6784314, g: 0.3372549, b: 0.9725491, a: 0.39215687}
+      key1: {r: 0.6784314, g: 0.3372549, b: 0.9725491, a: 0.19607843}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -126,7 +126,7 @@ MonoBehaviour:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
+      atime1: 65240
       atime2: 0
       atime3: 0
       atime4: 0

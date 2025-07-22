@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    private int currentLevel;
+    [SerializeField] private int currentLevel;
     public int CurrentLevel
     {
         get { return currentLevel; }
