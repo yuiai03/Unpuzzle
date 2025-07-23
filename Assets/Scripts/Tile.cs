@@ -44,6 +44,10 @@ public class Tile : MonoBehaviour
         }
     }
 
+    private void OnMouseDown()
+    {
+        OnClick();
+    }
     public void OnClick()
     {
         if (!CanAction()) return;

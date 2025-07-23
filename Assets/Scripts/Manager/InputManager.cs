@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
 {
-    private bool _isMousePressed = false;
-
     void Update()
     {
         HandleGameInput();
@@ -17,10 +15,6 @@ public class InputManager : Singleton<InputManager>
         if (Input.touchCount > 0)
         {
             HandleTouchInput();
-        }
-        else
-        {
-            HandleMouseInput();
         }
     }
 
@@ -36,23 +30,6 @@ public class InputManager : Singleton<InputManager>
             case TouchPhase.Ended:
                 Action(touch.position, hit);
                 break;
-        }
-    }
-
-    private void HandleMouseInput()
-    {
-        var mousePos = Input.mousePosition;
-        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-        if (!hit.collider) return;
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            _isMousePressed = true;
-        }
-        else if (Input.GetMouseButtonUp(0) && _isMousePressed)
-        {
-            _isMousePressed = false;
-            Action(Input.mousePosition, hit);
         }
     }
     private void Action(Vector2 inputPosition, RaycastHit2D hit)
