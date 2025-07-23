@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78ad8e5a194274468c528ab1b1edb18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraSize: 10
   cameraPos: {x: 1.5, y: 0}
   tileHolder: {fileID: 8934680172982124512}
   levelData: {fileID: 11400000, guid: 568be86e7f8df6a44aadf55e4eb3242c, type: 2}

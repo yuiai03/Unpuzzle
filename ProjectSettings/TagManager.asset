@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Saw
   - Tile
+  - Wall
   layers:
   - Default
   - TransparentFX

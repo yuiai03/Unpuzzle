@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Level 10
   m_EditorClassIdentifier: 
   levelNumber: 10
-  moves: 50
+  moves: 40

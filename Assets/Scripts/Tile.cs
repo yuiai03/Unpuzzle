@@ -13,12 +13,15 @@ public class Tile : MonoBehaviour
     protected TrailRenderer trailRenderer;
     private Coroutine shakeCoroutine;
     private Tween shakeTween;
-    private void Awake()
+    private GameManager gameManager => GameManager.Instance;
+    
+    protected virtual void Awake()
     {
         trailRenderer = GetComponent<TrailRenderer>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (spriteRenderer) spriteRenderer.sprite = Resources.Load<Sprite>($"Sprites/{tileType}");
     }
+    
     protected virtual void OnEnable()
     {
         transform.DOKill();
@@ -28,7 +31,7 @@ public class Tile : MonoBehaviour
     {
         Init();
     }
-
+    
     private void Init()
     {
         CurrentPos = new Vector2Int((int)transform.localPosition.x, (int)transform.localPosition.y);
@@ -41,13 +44,11 @@ public class Tile : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
+    public void OnClick()
     {
-        if (CanAction())
-        {
-            Action();
-            EventManager.TileClick();
-        }
+        if (!CanAction()) return;
+        Action();
+        EventManager.TileClick();
     }
 
     public Vector2 GetMoveDirection()
@@ -62,24 +63,19 @@ public class Tile : MonoBehaviour
                 return Vector2.up;
             case TileType.Down:
                 return Vector2.down;
-            case TileType.Hide:
-                return Vector2.zero;
             default:
                 return Vector2.zero;
         }
     }
 
-
-
     private void ShakeAction()
     {
-        var tileList = GameManager.Instance.CurrentLevelManager
+        var tileList = gameManager.CurrentLevelManager
             .GetTileListToDirection(CurrentPos, GetMoveDirection());
         if (tileList.Count == 0) return;
 
         if (shakeCoroutine != null) StopCoroutine(shakeCoroutine);
         shakeCoroutine = StartCoroutine(ShakeCoroutine(tileList));
-
     }
 
     private IEnumerator ShakeCoroutine(List<Tile> tileList)
@@ -123,12 +119,12 @@ public class Tile : MonoBehaviour
             });
     }
 
-    private void Action()
+    public void Action()
     {
         Vector2 moveDirection = GetMoveDirection();
         if (moveDirection == Vector2.zero) return;
 
-        var targetPos = GameManager.Instance.CurrentLevelManager.TargetPos(CurrentPos, moveDirection);
+        var targetPos = gameManager.CurrentLevelManager.TargetPos(CurrentPos, moveDirection);
         if(CurrentPos == targetPos)
         {
             ShakeAction();
@@ -145,8 +141,7 @@ public class Tile : MonoBehaviour
             || (Mathf.Abs(_targetPos.y) + Mathf.Abs(CurrentPos.y) >= 20);
     }
 
-    private bool CanAction()
-    {
-        return GameManager.Instance.CurrentMoves > 0 && tileType != TileType.Hide;
-    }
+    public bool CanAction() => gameManager.CurrentMoves > 0 && gameManager.CanAction && tileType != TileType.Hide;
+    
+    public TileType GetTileType() => tileType;
 }
